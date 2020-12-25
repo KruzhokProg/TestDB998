@@ -2,7 +2,9 @@ package com.example.testdb998;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,12 +30,26 @@ public class MainActivity extends AppCompatActivity {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
+        db.fillHobby();
+
         Integer userId =  db.checkUser(email, password);
         if(userId == -1){
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
+            Handler h = new Handler();
+
+            h.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent(getApplicationContext(), HobbyActivity.class);
+                            i.putExtra("userId", userId);
+                            startActivity(i);
+                        }
+                    }, 2000
+            );
         }
     }
 
