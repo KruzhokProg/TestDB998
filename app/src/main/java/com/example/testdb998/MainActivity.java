@@ -39,17 +39,19 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
             Handler h = new Handler();
-
-            h.postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent i = new Intent(getApplicationContext(), HobbyActivity.class);
-                            i.putExtra("userId", userId);
-                            startActivity(i);
-                        }
-                    }, 2000
-            );
+            Intent i = new Intent(getApplicationContext(), HobbyActivity.class);
+            i.putExtra("userId", userId);
+            startActivity(i);
+//            h.postDelayed(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Intent i = new Intent(getApplicationContext(), HobbyActivity.class);
+//                            i.putExtra("userId", userId);
+//                            startActivity(i);
+//                        }
+//                    }, 2000
+//            );
         }
     }
 

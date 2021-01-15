@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.testdb998.Models.Hobby;
+import com.example.testdb998.Models.RvModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public DataBaseHelper(@Nullable Context context) {
-        super(context, dbName, null, 7);
+        super(context, dbName, null, 8);
     }
 
 
@@ -74,6 +75,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<RvModel> getHobbyByUserId(Integer userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + colHobbyName + ", " + colHobbyImage +
+                " FROM " + hobbyTable + " JOIN " + userHobbyTable + " ON " + colHobbyId + "=" + colUHHobbyId +
+                " WHERE " + colUHUserId + "=" + userId.toString();
+        Cursor c = db.rawQuery(query, null);
+        List<RvModel> rvItems = new ArrayList<>();
+        if(c.moveToFirst()){
+            do{
+                RvModel model = new RvModel();
+                model.setName(c.getString(c.getColumnIndex(colHobbyName)));
+                model.setImage(c.getInt(c.getColumnIndex(colHobbyImage)));
+                rvItems.add(model);
+            }while(c.moveToNext());
+            return  rvItems;
+        }
+        return null;
+    }
+
     public List<Hobby> getHobbies(){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + hobbyTable;
@@ -86,6 +106,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 newHobby.setImage(c.getInt(c.getColumnIndex(colHobbyImage)));
                 hobbies.add(newHobby);
             }while(c.moveToNext());
+            c.close();
         }
 
         return hobbies;
@@ -154,10 +175,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if(c.moveToFirst()){
             Integer hobbyId = c.getInt(c.getColumnIndex(colHobbyId));
+            c.close();
             return hobbyId;
         }
         else
             return -1;
+
     }
 
     public void addNewHobby(Integer userId, Integer hobbyId) {
