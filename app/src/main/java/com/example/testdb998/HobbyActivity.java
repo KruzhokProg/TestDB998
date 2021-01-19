@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testdb998.Adapters.RvAdapter;
 import com.example.testdb998.Adapters.SpinnerAdapter;
+import com.example.testdb998.Models.RvModel;
+
+import java.util.List;
 
 public class HobbyActivity extends AppCompatActivity {
 
@@ -44,7 +47,7 @@ public class HobbyActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                hobbyId = db.getHobbyId(position);
                 hobbyId = position;
-                Toast.makeText(HobbyActivity.this, position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HobbyActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -53,23 +56,13 @@ public class HobbyActivity extends AppCompatActivity {
             }
         });
 
-//        spHobby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
     }
 
     public void btnAddClick(View view) {
         db.addNewHobby(userId, hobbyId);
-        adapter = new RvAdapter(db.getHobbyByUserId(userId), this);
-        adapter.notifyDataSetChanged();
+        List<RvModel> data = db.getHobbyByUserId(userId);
+        adapter = new RvAdapter(data, this);
+        rv.setAdapter(adapter);
         Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
     }
 }

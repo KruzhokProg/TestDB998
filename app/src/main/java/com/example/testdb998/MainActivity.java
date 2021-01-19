@@ -39,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
             Handler h = new Handler();
+
             Intent i = new Intent(getApplicationContext(), HobbyActivity.class);
             i.putExtra("userId", userId);
             startActivity(i);
+
 //            h.postDelayed(
 //                    new Runnable() {
 //                        @Override
