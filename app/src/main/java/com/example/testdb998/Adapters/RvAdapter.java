@@ -23,7 +23,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvViewHolder> {
         this.data = data;
         this.context = context;
     }
-
+    // fdkjhgfdg
     @NonNull
     @Override
     public RvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
